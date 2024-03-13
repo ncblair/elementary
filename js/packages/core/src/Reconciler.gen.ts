@@ -3,6 +3,7 @@
 
 
 // @ts-ignore: Implicit any on import
+
 import * as Curry__Es6Import from 'rescript/lib/es6/curry.js';
 const Curry: any = Curry__Es6Import;
 
