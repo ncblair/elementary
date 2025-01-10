@@ -216,7 +216,18 @@ namespace elem
             // Nothing to do if this root has stopped running or if it's aimed at
             // an invalid output channel
             if (!rootPtr->stillRunning() || outChan < 0u || outChan >= ctx.numOutputChannels)
+            {
+                if (needsReset)
+                {
+                    for (size_t i = 0; i < nodeList.size(); ++i)
+                    {
+                        nodeList[i]->reset();
+                    }
+                    needsReset = false;
+                }
                 return;
+            }
+            needsReset = true;
 
             // Run the subsequence
             for (size_t i = 0; i < renderOps.size(); ++i) {
@@ -239,6 +250,8 @@ namespace elem
 
         using RenderOperation = std::function<void(HostContext<FloatType>& context)>;
         std::vector<RenderOperation> renderOps;
+
+        bool needsReset{true};
     };
 
     template <typename FloatType>
